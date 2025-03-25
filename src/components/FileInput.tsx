@@ -42,7 +42,7 @@ const FileInput: React.FC<FileInputProps> = ({ onFileChange }) => {
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      className={`border-2 border-dashed rounded-md p-4 text-center ${
+      className={`border-2 border-dashed rounded-md p-4 m-5 text-center ${
         isDraggingOver ? "border-blue-500 bg-blue-100" : "border-gray-400"
       }`}
     >
@@ -64,7 +64,7 @@ const FileInput: React.FC<FileInputProps> = ({ onFileChange }) => {
       />
       <label
         htmlFor="file-input"
-        className="cursor-pointer bg-blue-500 text-white px-4 py-2 rounded-md mt-2 inline-block"
+        className="cursor-pointer bg-green-700 text-white px-4 py-2 rounded-lg mt-2 inline-block"
       >
         {uploadedFileName ? "Change File" : "Select File"}
       </label>

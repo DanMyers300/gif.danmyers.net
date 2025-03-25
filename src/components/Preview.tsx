@@ -1,52 +1,56 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
+import { FaPlay, FaPause } from "react-icons/fa";
 
 interface PreviewPlateProps {
-  handlePlayPause: () => void;
   videoUrl: string | null;
-  playing: boolean;
 }
 
 const PreviewPlate: React.FC<PreviewPlateProps> = ({
-  handlePlayPause,
   videoUrl,
-  playing,
 }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [playing, setPlaying] = useState(false);
+
+  const handlePlayPause = useCallback(() => {
+    setPlaying((prevPlaying) => !prevPlaying);
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
     let animationFrameId: number;
-  
+
     if (video && canvas) {
       const ctx = canvas.getContext("2d");
-      
+
       const drawFrame = () => {
         if (ctx && video) {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         }
-        // Request the next frame only if playing.
         if (playing) {
           animationFrameId = requestAnimationFrame(drawFrame);
         }
       };
-  
-      // Start drawing if playing, otherwise draw one frame.
-      if (playing) {
-        drawFrame();
-      } else {
-        // If not playing, draw one final frame.
-        if (ctx && video) {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const onVideoReady = () => {
+        if (video && canvas) {
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          drawFrame();
         }
-      }
-  
-      // Cleanup function to cancel the animation frame.
+      };
+
+      video.addEventListener("loadeddata", onVideoReady);
+      video.addEventListener("loadedmetadata", onVideoReady);
+
+      drawFrame();
+
       return () => {
         cancelAnimationFrame(animationFrameId);
+        video.removeEventListener("loadeddata", onVideoReady);
+        video.removeEventListener("loadedmetadata", onVideoReady);
       };
     }
   }, [videoUrl, playing]);
@@ -64,21 +68,24 @@ const PreviewPlate: React.FC<PreviewPlateProps> = ({
 
   return (
     <section className="p-4">
-      <div className="flex flex-col items-center space-y-4">
+      <div className="flex flex-col items-center mt-5 space-y-4">
         <canvas
           ref={canvasRef}
           id="preview-canvas"
-          className="shadow border border-bordercolor rounded"
-          width={640}
-          height={360}
+          className="shadow border max-w-1/4 border-bordercolor rounded"
         ></canvas>
 
         {videoUrl && (
           <video
             ref={videoRef}
             src={videoUrl}
-            style={{ display: "none" }}
+            style={{
+              position: "absolute",
+              top: "-9999px",
+              left: "-9999px",
+            }}
             crossOrigin="anonymous"
+            preload="auto"
           />
         )}
 
@@ -86,15 +93,16 @@ const PreviewPlate: React.FC<PreviewPlateProps> = ({
           <div className="flex flex-col items-center space-y-4">
             <button
               onClick={handlePlayPause}
-              className="text-white bg-blue-700
-              hover:bg-blue-800 focus:ring-4
-              focus:ring-blue-300 font-medium
-              rounded-lg text-sm px-5 py-2.5
-              me-2 mb-2 dark:bg-blue-600
-              dark:hover:bg-blue-700 focus:outline-none
-              dark:focus:ring-blue-800"
+              className="
+                text-white bg-blue-700
+                hover:bg-blue-800 focus:ring-4
+                focus:ring-blue-300 font-medium
+                rounded-lg text-sm px-5 py-2.5
+                mb-2 mt-2 dark:bg-blue-600
+                dark:hover:bg-blue-700 focus:outline-none
+                dark:focus:ring-blue-800"
             >
-              {playing ? "Pause" : "Play"}
+              {playing ? <FaPause /> : <FaPlay />}
             </button>
           </div>
         )}
@@ -104,4 +112,3 @@ const PreviewPlate: React.FC<PreviewPlateProps> = ({
 };
 
 export default PreviewPlate;
-
