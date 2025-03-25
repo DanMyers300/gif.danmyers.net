@@ -12,10 +12,9 @@ const createFile = async (
   const fileData = await fetchFile(videoUrl);
   if (!fileData) return;
 
-  // Clone the buffer to prevent detachment
   const clonedData = new Uint8Array(fileData.buffer.slice());
   await ffmpeg.writeFile("input.mp4", clonedData);
-  onReady(); // Signal that the file is ready in FFmpeg's FS
+  onReady();
 };
 
 export default createFile;
