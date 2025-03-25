@@ -17,21 +17,39 @@ const PreviewPlate: React.FC<PreviewPlateProps> = ({
   useEffect(() => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
-
+    let animationFrameId: number;
+  
     if (video && canvas) {
       const ctx = canvas.getContext("2d");
-
+      
       const drawFrame = () => {
         if (ctx && video) {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         }
-        requestAnimationFrame(drawFrame);
+        // Request the next frame only if playing.
+        if (playing) {
+          animationFrameId = requestAnimationFrame(drawFrame);
+        }
       };
-
-      drawFrame();
+  
+      // Start drawing if playing, otherwise draw one frame.
+      if (playing) {
+        drawFrame();
+      } else {
+        // If not playing, draw one final frame.
+        if (ctx && video) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        }
+      }
+  
+      // Cleanup function to cancel the animation frame.
+      return () => {
+        cancelAnimationFrame(animationFrameId);
+      };
     }
-  }, [videoUrl]);
+  }, [videoUrl, playing]);
 
   useEffect(() => {
     const video = videoRef.current;
