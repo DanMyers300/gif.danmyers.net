@@ -1,15 +1,17 @@
 import { useCallback, useState, useEffect, useRef } from "react";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
+import { fetchFile } from "@ffmpeg/util";
 import convert from "./utils/convert";
 
-import PreviewPlate from "./components/preview";
-import ConvertButton from "./components/convertButton";
+import PreviewPlate from "./components/Preview";
+import ConvertButton from "./components/ConvertButton";
+import FileInput from "./components/FileInput";
 
 function App() {
   // Initialize ffmpeg
   const ffmpegRef = useRef(new FFmpeg());
   // Set the input video URL – ensure this is a valid path (e.g. `/input.mp4` if in public)
-  const [videoUrl, setVideoUrl] = useState<string | null>("/input.mp4");
+  const [videoUrl, setVideoUrl] = useState<string | null>();
   const [playing, setPlaying] = useState(false);
 
   // Hold the output blob URL from the conversion
@@ -37,6 +39,19 @@ function App() {
     setDownloadUrl(url);
   };
 
+  async function handleFileChange(
+    file: File,
+    setVideoUrl: (url: string) => void,
+  ) {
+    if (file) {
+      setVideoUrl(URL.createObjectURL(file));
+    }
+  }
+
+  const onFileChange = async (file: File) => {
+    await handleFileChange(file, setVideoUrl);
+  };
+
   return (
     <div className="flex flex-col justify-center items-center bg-black h-screen w-screen">
       <PreviewPlate
@@ -57,6 +72,7 @@ function App() {
           Download Output GIF
         </a>
       )}
+      <FileInput onFileChange={onFileChange}/>
     </div>
   );
 }
