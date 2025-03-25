@@ -33,8 +33,8 @@ const Timeline = ({ ffmpegRef, isFileReady }: TimelineProps) => {
   return (
     <div className="absolute bottom-0 flex flex-col">
       <div className="text-white w-screen text-center"> timeline </div>
-      <div className="bg-gray-700 w-screen h-48"> 
-        {screenshot && <img src={screenshot} alt="Screenshot" />}
+      <div className="bg-gray-700 w-screen h-48">
+        {screenshot && <img src={screenshot} className="max-h-48 w-screen" alt="Screenshot" />}
       </div>
     </div>
   );
