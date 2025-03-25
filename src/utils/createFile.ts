@@ -4,20 +4,18 @@ import fetchFile from "./fetchFile";
 const createFile = async (
   ffmpegRef: React.RefObject<FFmpeg>,
   videoUrl: string | null,
-  setVideoFile: (fileData:string) => void
+  onReady: () => void
 ) => {
-  if (!videoUrl) {
-    console.error("No video URL provided for conversion");
-    return null;
-  }
+  if (!videoUrl) return;
 
   const ffmpeg = ffmpegRef.current;
-
   const fileData = await fetchFile(videoUrl);
-  if (!fileData) return null;
+  if (!fileData) return;
 
-  await ffmpeg.writeFile("input.mp4", fileData);
-  setVideoFile("input.mp4");
-}
+  // Clone the buffer to prevent detachment
+  const clonedData = new Uint8Array(fileData.buffer.slice());
+  await ffmpeg.writeFile("input.mp4", clonedData);
+  onReady(); // Signal that the file is ready in FFmpeg's FS
+};
 
 export default createFile;

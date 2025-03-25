@@ -14,8 +14,9 @@ function App() {
   const ffmpegRef = useRef(new FFmpeg());
 
   const [videoUrl, setVideoUrl] = useState<string>("");
-  const [videoFile, setVideoFile] = useState<string | null>(null);
+  const [videoFile, setVideoFile] = useState<Uint8Array | null>(null);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [isFileReady, setIsFileReady] = useState(false); // Add this state
 
   useEffect(() => {
     const ffmpeg = ffmpegRef.current;
@@ -28,9 +29,9 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!videoUrl) return
-    createFile(ffmpegRef, videoUrl, setVideoFile);
-  }, [videoUrl])
+    if (!videoUrl) return;
+    createFile(ffmpegRef, videoUrl, () => setIsFileReady(true));
+  }, [videoUrl]);
 
   const runConvert = async () => {
     const url = await convert(ffmpegRef, videoFile);
@@ -63,7 +64,7 @@ function App() {
         <PreviewPlate
           videoUrl={videoUrl}
         />
-        <Timeline />
+        <Timeline ffmpegRef={ffmpegRef} isFileReady={isFileReady}/>
       </div>
     </div>
   );
