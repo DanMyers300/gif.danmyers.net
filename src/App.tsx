@@ -1,12 +1,14 @@
 import { useCallback, useState, useEffect, useRef } from "react";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
+
 import convert from "./utils/convert";
 import createFile from "./utils/createFile";
+import handleFileChange from "./utils/handleFileChange";
 
 import PreviewPlate from "./components/Preview";
 import ConvertButton from "./components/ConvertButton";
 import FileInput from "./components/FileInput";
-import handleFileChange from "./utils/handleFileChange";
+import Timeline from "./components/Timeline";
 
 function App() {
   const ffmpegRef = useRef(new FFmpeg());
@@ -61,10 +63,7 @@ function App() {
         <PreviewPlate
           videoUrl={videoUrl}
         />
-        <div className="absolute bottom-0 flex flex-col">
-          <div className="text-white w-screen text-center"> timeline </div>
-          <div className="bg-gray-700 w-screen h-48"> </div>
-        </div>
+        <Timeline />
       </div>
     </div>
   );
