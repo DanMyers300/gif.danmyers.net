@@ -11,6 +11,7 @@ const PreviewPlate: React.FC<PreviewPlateProps> = ({
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [playing, setPlaying] = useState(false);
+  const animationFrameId = useRef<number>(0);
 
   const handlePlayPause = useCallback(() => {
     setPlaying((prevPlaying) => !prevPlaying);
@@ -19,7 +20,6 @@ const PreviewPlate: React.FC<PreviewPlateProps> = ({
   useEffect(() => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
-    let animationFrameId: number;
 
     if (video && canvas) {
       const ctx = canvas.getContext("2d");
@@ -30,7 +30,7 @@ const PreviewPlate: React.FC<PreviewPlateProps> = ({
           ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         }
         if (playing) {
-          animationFrameId = requestAnimationFrame(drawFrame);
+          animationFrameId.current = requestAnimationFrame(drawFrame);
         }
       };
 
@@ -48,7 +48,7 @@ const PreviewPlate: React.FC<PreviewPlateProps> = ({
       drawFrame();
 
       return () => {
-        cancelAnimationFrame(animationFrameId);
+        cancelAnimationFrame(animationFrameId.current);
         video.removeEventListener("loadeddata", onVideoReady);
         video.removeEventListener("loadedmetadata", onVideoReady);
       };
