@@ -16,7 +16,7 @@ const convert = async (
 
   const output = await ffmpeg.readFile("output.gif");
 
-  const outputUrl = await createOutputUrl(output);
+  const outputUrl = await createOutputUrl(output as Uint8Array);
 
   console.log("Conversion Done!");
   return outputUrl;

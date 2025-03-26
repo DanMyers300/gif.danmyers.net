@@ -9,13 +9,13 @@ const Timeline = () => {
 
   useEffect(() => {
 
-    generateScreenshots(
+    generateScreenshots({
       ffmpegRef,
       isFileReady,
       videoUrl,
       setIsGenerating,
       setScreenshots
-    );
+    });
 
     return () => {
       screenshots.forEach((url) => URL.revokeObjectURL(url));

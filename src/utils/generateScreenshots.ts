@@ -1,4 +1,20 @@
-const generateScreenshots = async (ffmpegRef, isFileReady, videoUrl, setIsGenerating, setScreenshots) => {
+import { FFmpeg } from "@ffmpeg/ffmpeg";
+
+interface generateScreenshotsProps {
+  ffmpegRef: React.RefObject<FFmpeg>,
+  isFileReady: boolean,
+  videoUrl: string,
+  setIsGenerating: (arg0: React.SetStateAction<boolean>) => void,
+  setScreenshots: (arg0: React.SetStateAction<string[]>) => void,
+};
+
+const generateScreenshots = async ({
+  ffmpegRef,
+  isFileReady,
+  videoUrl,
+  setIsGenerating,
+  setScreenshots
+}: generateScreenshotsProps) => {
   if (!isFileReady || !ffmpegRef.current || !videoUrl) {
     return;
   }
