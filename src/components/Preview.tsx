@@ -50,7 +50,6 @@ const PreviewPlate: React.FC = () => {
     };
   }, [videoUrl, playing, animationFrameId]);
 
-  // Handle play/pause state
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -82,8 +81,9 @@ const PreviewPlate: React.FC = () => {
               src={videoUrl}
               style={{
                 position: "absolute",
-                top: "-9999px",
-                left: "-9999px",
+                bottom: "0px",
+                width: "1px",
+                height: "1px"
               }}
               crossOrigin="anonymous"
               preload="auto"
