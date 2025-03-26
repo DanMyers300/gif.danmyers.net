@@ -1,110 +1,107 @@
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { FaPlay, FaPause } from "react-icons/fa";
+import { useVideoContext } from "../context/VideoContext";
 
-interface PreviewPlateProps {
-  videoUrl: string | null;
-}
-
-const PreviewPlate: React.FC<PreviewPlateProps> = ({
-  videoUrl,
-}) => {
+const PreviewPlate: React.FC = () => {
+  const { videoUrl, animationFrameId } = useVideoContext();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [playing, setPlaying] = useState(false);
-  const animationFrameId = useRef<number>(0);
+  const [playing, setPlaying] = React.useState(false);
 
   const handlePlayPause = useCallback(() => {
     setPlaying((prevPlaying) => !prevPlaying);
   }, []);
 
+  // Handle video frame drawing
   useEffect(() => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
 
-    if (video && canvas) {
-      const ctx = canvas.getContext("2d");
+    if (!video || !canvas) return;
 
-      const drawFrame = () => {
-        if (ctx && video) {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        }
-        if (playing) {
-          animationFrameId.current = requestAnimationFrame(drawFrame);
-        }
-      };
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
-      const onVideoReady = () => {
-        if (video && canvas) {
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-          drawFrame();
-        }
-      };
+    const drawFrame = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      if (playing) {
+        animationFrameId.current = requestAnimationFrame(drawFrame);
+      }
+    };
 
-      video.addEventListener("loadeddata", onVideoReady);
-      video.addEventListener("loadedmetadata", onVideoReady);
+    const onVideoReady = () => {
+      if (video && canvas) {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        drawFrame();
+      }
+    };
 
-      drawFrame();
+    video.addEventListener("loadeddata", onVideoReady);
+    video.addEventListener("loadedmetadata", onVideoReady);
 
-      return () => {
-        cancelAnimationFrame(animationFrameId.current);
-        video.removeEventListener("loadeddata", onVideoReady);
-        video.removeEventListener("loadedmetadata", onVideoReady);
-      };
-    }
-  }, [videoUrl, playing]);
+    drawFrame();
 
+    return () => {
+      cancelAnimationFrame(animationFrameId.current);
+      video.removeEventListener("loadeddata", onVideoReady);
+      video.removeEventListener("loadedmetadata", onVideoReady);
+    };
+  }, [videoUrl, playing, animationFrameId]);
+
+  // Handle play/pause state
   useEffect(() => {
     const video = videoRef.current;
-    if (video) {
-      if (playing) {
-        video.play();
-      } else {
-        video.pause();
-      }
+    if (!video) return;
+
+    if (playing) {
+      video.play().catch(e => console.error("Playback failed:", e));
+    } else {
+      video.pause();
     }
   }, [playing]);
 
   return (
-    <section className="p-4">
-      <div className="flex flex-col items-center mt-5 space-y-4">
+    <section>
+      <div className="flex flex-col items-center mt-2">
         <canvas
           ref={canvasRef}
           id="preview-canvas"
-          className="shadow border max-w-1/4 border-bordercolor rounded"
-        ></canvas>
+          className="
+            shadow border mx-auto
+            max-w-screen max-h-72
+            lg:max-h-120 md:max-h-100
+            border-bordercolor rounded"
+        />
 
         {videoUrl && (
-          <video
-            ref={videoRef}
-            src={videoUrl}
-            style={{
-              position: "absolute",
-              top: "-9999px",
-              left: "-9999px",
-            }}
-            crossOrigin="anonymous"
-            preload="auto"
-          />
-        )}
+          <>
+            <video
+              ref={videoRef}
+              src={videoUrl}
+              style={{
+                position: "absolute",
+                top: "-9999px",
+                left: "-9999px",
+              }}
+              crossOrigin="anonymous"
+              preload="auto"
+            />
 
-        {videoUrl && (
-          <div className="flex flex-col items-center space-y-4">
-            <button
-              onClick={handlePlayPause}
-              className="
-                text-white bg-blue-700
-                hover:bg-blue-800 focus:ring-4
-                focus:ring-blue-300 font-medium
-                rounded-lg text-sm px-5 py-2.5
-                mb-2 mt-2 dark:bg-blue-600
-                dark:hover:bg-blue-700 focus:outline-none
-                dark:focus:ring-blue-800"
-            >
-              {playing ? <FaPause /> : <FaPlay />}
-            </button>
-          </div>
+            <div className="flex flex-col items-center space-y-4">
+              <button
+                onClick={handlePlayPause}
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4
+                         focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5
+                         mb-2 mt-4 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none
+                         dark:focus:ring-blue-800"
+                disabled={!videoUrl}
+              >
+                {playing ? <FaPause /> : <FaPlay />}
+              </button>
+            </div>
+          </>
         )}
       </div>
     </section>
@@ -112,3 +109,4 @@ const PreviewPlate: React.FC<PreviewPlateProps> = ({
 };
 
 export default PreviewPlate;
+

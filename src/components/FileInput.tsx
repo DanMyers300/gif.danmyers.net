@@ -1,19 +1,14 @@
 import React, { useState } from "react";
+import { useVideoContext } from "../context/VideoContext";
 
-interface FileInputProps {
-  onFileChange: (file: File) => void;
-}
-
-const FileInput: React.FC<FileInputProps> = ({ onFileChange }) => {
+const FileInput: React.FC = () => {
+  const { setIsFileReady, setVideoUrl } = useVideoContext();
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) {
-      setUploadedFileName(file.name); // Update the uploaded file name
-      onFileChange(file);
-    }
+    if (file) processFile(file);
   };
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
@@ -29,12 +24,16 @@ const FileInput: React.FC<FileInputProps> = ({ onFileChange }) => {
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDraggingOver(false);
-
     const file = event.dataTransfer.files?.[0];
-    if (file) {
-      setUploadedFileName(file.name); // Update the uploaded file name
-      onFileChange(file);
-    }
+    if (file) processFile(file);
+  };
+
+  // Helper function to process the file and update context
+  const processFile = (file: File) => {
+    setIsFileReady(false);
+    setUploadedFileName(file.name);
+    const objectUrl = URL.createObjectURL(file);
+    setVideoUrl(objectUrl);
   };
 
   return (
@@ -42,7 +41,7 @@ const FileInput: React.FC<FileInputProps> = ({ onFileChange }) => {
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      className={`border-2 border-dashed rounded-md p-4 m-5 text-center ${
+      className={`border-2 border-dashed rounded-md p-4 m-5 max-w-1/2 text-center ${
         isDraggingOver ? "border-blue-500 bg-blue-100" : "border-gray-400"
       }`}
     >
@@ -58,7 +57,7 @@ const FileInput: React.FC<FileInputProps> = ({ onFileChange }) => {
       <input
         type="file"
         accept="video/*"
-        onChange={handleFileChange}
+        onChange={handleInputChange}
         className="hidden"
         id="file-input"
       />
@@ -73,4 +72,3 @@ const FileInput: React.FC<FileInputProps> = ({ onFileChange }) => {
 };
 
 export default FileInput;
-

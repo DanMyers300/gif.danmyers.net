@@ -1,43 +1,53 @@
 import { useState, useEffect } from "react";
-import { FFmpeg } from "@ffmpeg/ffmpeg";
+import { useVideoContext } from "../context/VideoContext";
+import generateScreenshots from "../utils/generateScreenshots";
 
-interface TimelineProps {
-  ffmpegRef: React.RefObject<FFmpeg>;
-  isFileReady: boolean;
-}
-
-const Timeline = ({ ffmpegRef, isFileReady }: TimelineProps) => {
-  const [screenshot, setScreenshot] = useState<string | undefined>(undefined);
-  const ffmpeg = ffmpegRef.current;
+const Timeline = () => {
+  const { ffmpegRef, isFileReady, videoUrl } = useVideoContext();
+  const [screenshots, setScreenshots] = useState<string[]>([]);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   useEffect(() => {
-    const generateScreenshot = async () => {
-    if (!isFileReady || !ffmpeg) return;
 
-    await ffmpeg.exec([
-      "-ss", "00:00:01",
-      "-i", "input.mp4",
-      "-vframes", "1",
-      "screenshot.png",
-    ]);
+    generateScreenshots(
+      ffmpegRef,
+      isFileReady,
+      videoUrl,
+      setIsGenerating,
+      setScreenshots
+    );
 
-    const screenshotData = await ffmpeg.readFile("screenshot.png");
-    const blob = new Blob([screenshotData], { type: "image/png" });
-    setScreenshot(URL.createObjectURL(blob));
-
+    return () => {
+      screenshots.forEach((url) => URL.revokeObjectURL(url));
+      setScreenshots([]);
     };
-
-    generateScreenshot();
-  }, [isFileReady, ffmpeg]);
+  }, [isFileReady, videoUrl, ffmpegRef]);
 
   return (
-    <div className="absolute bottom-0 flex flex-col">
-      <div className="text-white w-screen text-center"> timeline </div>
-      <div className="flex items-center bg-gray-700 w-screen h-48">
-        {screenshot && <img src={screenshot} className="max-h-40 w-screen" alt="Screenshot" />}
+    <div className="absolute bottom-0 flex flex-col w-screen">
+      <div className="text-white text-center py-1">Timeline</div>
+      <div className="
+        flex items-center justify-center
+        bg-gray-700 h-48 overflow-hidden
+        p-2 -space-x-6"
+      >
+        {isGenerating ? (
+          <div className="text-gray-400">
+            Generating screenshots...
+          </div>
+        ) : screenshots.length > 0 ? (
+          screenshots.map((src, index) => (
+            <img
+              key={index}
+              src={src}
+              className="max-h-40 h-full object-contain flex-shrink-0"
+              alt={`Screenshot ${index + 1}`}
+            />
+          ))) : ("")}
       </div>
     </div>
   );
 };
 
 export default Timeline;
+
