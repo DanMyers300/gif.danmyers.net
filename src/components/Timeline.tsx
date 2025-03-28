@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 import { useVideoContext } from "./Context";
 import generateScreenshots from "../utils/generateScreenshots";
 
 const Timeline = () => {
-  const { ffmpegRef, isFileReady, videoUrl } = useVideoContext();
+  const { ffmpegRef, isFileReady, videoUrl, arrowPositions } = useVideoContext();
   const [screenshots, setScreenshots] = useState<string[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -24,9 +24,7 @@ const Timeline = () => {
 
   return (
     <div className="absolute bottom-0 flex flex-col w-screen">
-      <div
-        className="timeline-container flex items-center justify-center bg-gray-700 min-h-40 max-h-40 overflow-hidden p-2 -space-x-6"
-      >
+      <div className="timeline-container flex items-center justify-center bg-gray-700 min-h-40 max-h-40 overflow-hidden p-2 -space-x-6 relative">
         {isGenerating ? (
           <div className="text-gray-400">Generating screenshots...</div>
         ) : screenshots.length > 0 ? (
@@ -41,6 +39,15 @@ const Timeline = () => {
         ) : (
           ""
         )}
+        {/* Vertical lines */}
+        <div
+          style={{ left: `${arrowPositions.left}%` }}
+          className="absolute top-0 h-full w-px bg-red-500 transform -translate-x-1/2"
+        />
+        <div
+          style={{ left: `${arrowPositions.right}%` }}
+          className="absolute top-0 h-full w-px bg-red-500 transform -translate-x-1/2"
+        />
       </div>
     </div>
   );

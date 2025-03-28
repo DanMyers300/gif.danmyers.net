@@ -12,6 +12,8 @@ interface VideoContextType {
   setIsFileReady: (arg0: React.SetStateAction<boolean>) => void;
   animationFrameId: React.RefObject<number>;
   ffmpegRef: React.RefObject<FFmpeg>;
+  arrowPositions,
+  setArrowPositions
 }
 
 const VideoContext = createContext<VideoContextType | undefined>(undefined);
@@ -23,6 +25,7 @@ export const VideoProvider = ({ children }: { children: ReactNode }) => {
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [isFileReady, setIsFileReady] = useState(false);
   const animationFrameId = useRef<number>(0);
+  const [arrowPositions, setArrowPositions] = useState({ left: 25, right: 75 });
 
   useEffect(() => {
     const ffmpeg = ffmpegRef.current;
@@ -55,6 +58,8 @@ export const VideoProvider = ({ children }: { children: ReactNode }) => {
         isFileReady,
         animationFrameId,
         ffmpegRef,
+        arrowPositions,
+        setArrowPositions
       }}
     >
       {children}

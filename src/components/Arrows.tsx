@@ -1,7 +1,6 @@
+import {useVideoContext} from "./Context"
 import { useState, useRef } from "react";
 import { FaArrowDown } from "react-icons/fa";
-
-type ArrowPosition = { left: number; right: number };
 
 const useArrowDrag = (
   arrow: keyof ArrowPosition,
@@ -62,13 +61,11 @@ const useArrowDrag = (
   return { handleMouseDown, handleTouchStart };
 };
 
-const Arrows = () => {
-  const [arrowPositions, setArrowPositions] = useState<ArrowPosition>({
-    left: 25,
-    right: 75,
-  });
+type ArrowPosition = { left: number; right: number };
 
+const Arrows = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const {arrowPositions, setArrowPositions} = useVideoContext();
 
   const { handleMouseDown: handleLeftArrowMouseDown, handleTouchStart: handleLeftArrowTouchStart } =
     useArrowDrag("left", setArrowPositions, containerRef);
