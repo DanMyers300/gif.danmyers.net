@@ -1,25 +1,19 @@
-import { VideoProvider } from "./context/VideoContext";
-import PreviewPlate from "./components/Preview";
-import ConvertButton from "./components/ConvertButton";
-import DownloadButton from "./components/DownloadButton"
-import FileInput from "./components/FileInput";
-import Timeline from "./components/Timeline";
+import { ContextProvider } from './components/Context'
+import Upload from './components/Upload';
 
 function App() {
   return (
-    <VideoProvider>
-    <div className="bg-black h-screen overflow-hidden w-screen flex flex-col items-center">
-      <FileInput/>
-      <div className="flex flex-col h-5/6 justify-start items-center">
-        <div className="flex flex-row justify-center items-center" >
-          <ConvertButton/>
-          <DownloadButton />
-        </div>
-        <PreviewPlate />
-        <Timeline />
-      </div>
+    <ContextProvider>
+    <div className="bg-black h-screen
+      overflow-hidden w-screen flex
+      flex-col items-center"
+    >
+      {/* Upload Area */}
+      < Upload />
+      {/* Preview Area */}
+      {/* Timeline Area */}
     </div>
-    </VideoProvider>
+    </ContextProvider>
   );
 }
 
