@@ -8,17 +8,16 @@ import Timeline from "./components/Timeline";
 function App() {
   return (
     <VideoProvider>
-    <div className="bg-black h-screen overflow-hidden w-screen flex flex-col items-center">
+      <div className="
+        bg-black h-screen overflow-hidden
+        w-screen flex flex-col items-center"
+      >
       <FileInput/>
-      <div className="flex flex-col h-5/6 justify-start items-center">
-        <div className="flex flex-row justify-center items-center" >
-          <ConvertButton/>
-          <DownloadButton />
-        </div>
-        <PreviewPlate />
-        <Timeline />
+      <ConvertButton/>
+      <DownloadButton />
+      <PreviewPlate />
+      <Timeline />
       </div>
-    </div>
     </VideoProvider>
   );
 }
