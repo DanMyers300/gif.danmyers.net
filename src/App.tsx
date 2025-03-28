@@ -13,11 +13,15 @@ function App() {
         w-screen flex flex-col items-center"
       >
       <FileInput/>
-      <ConvertButton/>
-      <DownloadButton />
-      <PreviewPlate />
-      <Timeline />
+      <div className="flex flex-col h-5/6 justify-start items-center">
+        <div className="flex flex-row justify-center items-center" >
+          <ConvertButton/>
+          <DownloadButton />
+        </div>
+        <PreviewPlate />
+        <Timeline />
       </div>
+    </div>
     </VideoProvider>
   );
 }
