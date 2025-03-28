@@ -41,7 +41,7 @@ const FileInput: React.FC = () => {
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      className={`border-2 border-dashed rounded-md p-4 m-5 max-w-1/2 text-center ${
+      className={`border-2 border-dashed rounded-md p-4 m-5 max-w-5/6 text-center ${
         isDraggingOver ? "border-blue-500 bg-blue-100" : "border-gray-400"
       }`}
     >

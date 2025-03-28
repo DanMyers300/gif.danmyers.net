@@ -26,7 +26,7 @@ const Timeline = () => {
     <div className="absolute bottom-0 flex flex-col w-screen">
       <div className="text-white text-center py-1">Timeline</div>
       <div
-        className="timeline-container flex items-center justify-center bg-gray-700 min-h-48 max-h-48 overflow-hidden p-2 -space-x-6"
+        className="timeline-container flex items-center justify-center bg-gray-700 min-h-40 max-h-40 overflow-hidden p-2 -space-x-6"
       >
         {isGenerating ? (
           <div className="text-gray-400">Generating screenshots...</div>
