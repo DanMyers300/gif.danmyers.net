@@ -12,8 +12,8 @@ interface VideoContextType {
   setIsFileReady: (arg0: React.SetStateAction<boolean>) => void;
   animationFrameId: React.RefObject<number>;
   ffmpegRef: React.RefObject<FFmpeg>;
-  arrowPositions,
-  setArrowPositions
+  arrowPositions:  {left: number; right: number;},
+  setArrowPositions: React.Dispatch<React.SetStateAction<{left: number; right: number;}>>
 }
 
 const VideoContext = createContext<VideoContextType | undefined>(undefined);

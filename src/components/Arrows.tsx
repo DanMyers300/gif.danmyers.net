@@ -1,5 +1,5 @@
 import {useVideoContext} from "./Context"
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { FaArrowDown } from "react-icons/fa";
 
 const useArrowDrag = (
