@@ -6,7 +6,7 @@ type ArrowPosition = { left: number; right: number };
 const useArrowDrag = (
   arrow: keyof ArrowPosition,
   setArrowPositions: React.Dispatch<React.SetStateAction<ArrowPosition>>,
-  containerRef: React.RefObject<HTMLDivElement>
+  containerRef: React.RefObject<HTMLDivElement | null>
 ) => {
   const handleMouseMove = (e: MouseEvent) => {
     if (!containerRef.current) return;
@@ -14,10 +14,21 @@ const useArrowDrag = (
     const containerRect = containerRef.current.getBoundingClientRect();
     const newPosition = ((e.clientX - containerRect.left) / containerRect.width) * 100;
 
-    setArrowPositions((prev) => ({
-      ...prev,
-      [arrow]: Math.max(0, Math.min(100, newPosition)),
-    }));
+    setArrowPositions((prev) => {
+      const updatedPosition = Math.max(0, Math.min(100, newPosition));
+
+      // Ensure the left arrow doesn't go beyond 50%
+      if (arrow === "left" && updatedPosition > 50) {
+        return { ...prev, [arrow]: 50 };
+      }
+
+      // Ensure the right arrow doesn't go below 50%
+      if (arrow === "right" && updatedPosition < 50) {
+        return { ...prev, [arrow]: 50 };
+      }
+
+      return { ...prev, [arrow]: updatedPosition };
+    });
   };
 
   const handleMouseUp = () => {
