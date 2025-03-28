@@ -9,18 +9,15 @@ const PreviewPlate: React.FC = () => {
   const [playing, setPlaying] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
 
-  // Check if the device is iOS
   useEffect(() => {
     const iosCheck = /iPad|iPhone|iPod/.test(navigator.userAgent);
     setIsIOS(iosCheck);
-    console.log("Is iOS:", iosCheck); // Debugging
   }, []);
 
   const handlePlayPause = useCallback(() => {
     setPlaying((prevPlaying) => !prevPlaying);
   }, []);
 
-  // Handle video frame drawing
   useEffect(() => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
@@ -47,14 +44,12 @@ const PreviewPlate: React.FC = () => {
     };
 
     video.addEventListener("loadeddata", onVideoReady);
-    video.addEventListener("loadedmetadata", onVideoReady);
 
     drawFrame();
 
     return () => {
       cancelAnimationFrame(animationFrameId.current);
       video.removeEventListener("loadeddata", onVideoReady);
-      video.removeEventListener("loadedmetadata", onVideoReady);
     };
   }, [videoUrl, playing, animationFrameId]);
 
