@@ -15,16 +15,17 @@ const PreviewPlate: React.FC = () => {
     <section>
       <div className="flex flex-col items-center mt-2">
         {videoUrl && (
-          <>
+          <div className="w-full aspect-video">
             <ReactPlayer
               url={videoUrl}
-              width="80%"
               ref={playerRef}
               playing={playing}
               playsInline
               onClick={handlePlayPause}
+              width="100%"
+              height="100%"
             />
-          </>
+          </div>
         )}
       </div>
     </section>
@@ -32,4 +33,3 @@ const PreviewPlate: React.FC = () => {
 };
 
 export default PreviewPlate;
-
