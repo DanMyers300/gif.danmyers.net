@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useVideoContext } from "../context/VideoContext";
+import { useVideoContext } from "./Context";
 import generateScreenshots from "../utils/generateScreenshots";
 
 const Timeline = () => {

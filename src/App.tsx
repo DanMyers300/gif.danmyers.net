@@ -1,4 +1,4 @@
-import { VideoProvider } from "./context/VideoContext";
+import { VideoProvider } from "./components/Context";
 import PreviewPlate from "./components/Preview";
 import ConvertButton from "./components/ConvertButton";
 import DownloadButton from "./components/DownloadButton"

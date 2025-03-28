@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useVideoContext } from "../context/VideoContext";
+import { useVideoContext } from "./Context";
 
 const FileInput: React.FC = () => {
   const { setIsFileReady, setVideoUrl } = useVideoContext();

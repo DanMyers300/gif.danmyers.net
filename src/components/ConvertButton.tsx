@@ -1,4 +1,4 @@
-import { useVideoContext } from "../context/VideoContext";
+import { useVideoContext } from "./Context";
 import convert from "../utils/convert";
 
 const ConvertButton = () => {

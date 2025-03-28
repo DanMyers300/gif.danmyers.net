@@ -1,10 +1,12 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useRef } from "react";
 import { FaPlay, FaPause } from "react-icons/fa";
-import { useVideoContext } from "../context/VideoContext";
+import { useVideoContext } from "./Context";
+import ReactPlayer from "react-player";
 
 const PreviewPlate: React.FC = () => {
   const { videoUrl } = useVideoContext();
   const [playing, setPlaying] = useState(false);
+  const playerRef = useRef<ReactPlayer>(null);
 
   const handlePlayPause = useCallback(() => {
     setPlaying((prevPlaying) => !prevPlaying);
@@ -15,19 +17,17 @@ const PreviewPlate: React.FC = () => {
       <div className="flex flex-col items-center mt-2">
         {videoUrl && (
           <>
-            <video
-              src={videoUrl}
+            <ReactPlayer
+              url={videoUrl}
               controls={false}
               className="
                 shadow border mx-auto
                 max-w-screen max-h-72
                 lg:max-h-120 md:max-h-100
                 border-bordercolor rounded"
-              ref={(video) => {
-                if (video) {
-                  playing ? video.play() : video.pause();
-                }
-              }}
+              ref={playerRef}
+              playing={playing}
+              playsInline
             />
 
             <div className="flex flex-col items-center space-y-4">

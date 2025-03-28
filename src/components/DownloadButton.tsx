@@ -1,4 +1,4 @@
-import { useVideoContext } from "../context/VideoContext";
+import { useVideoContext } from "./Context";
 
 const DownloadButton = () => {
   const { downloadUrl } = useVideoContext();
