@@ -4,6 +4,7 @@ import ConvertButton from "./components/ConvertButton";
 import DownloadButton from "./components/DownloadButton"
 import FileInput from "./components/FileInput";
 import Timeline from "./components/Timeline";
+import Arrows from "./components/Arrows";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <DownloadButton />
         </div>
         <PreviewPlate />
+        <Arrows />
         <Timeline />
       </div>
     </div>
