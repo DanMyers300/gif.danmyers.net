@@ -15,7 +15,7 @@ const PreviewPlate: React.FC = () => {
     <section>
       <div className="flex flex-col items-center mt-2">
         {videoUrl && (
-          <div className="w-full aspect-video">
+          <div className="w-full max-h-150 aspect-video">
             <ReactPlayer
               url={videoUrl}
               ref={playerRef}
