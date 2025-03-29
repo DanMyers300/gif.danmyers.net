@@ -46,7 +46,7 @@ const FileInput: React.FC = () => {
       }`}
     >
       {uploadedFileName ? (
-        <p className="text-green-600 font-semibold">
+        <p className="text-green-600 font-semibold overflow-hidden text-wrap">
           Uploaded: {uploadedFileName}
         </p>
       ) : (
