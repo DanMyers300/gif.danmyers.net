@@ -47,7 +47,7 @@ const Timeline = () => {
             <img
               key={index}
               src={src}
-              className="h-full w-auto object-cover flex-none"
+              className="h-full flex-1 object-cover"
               alt={`Screenshot ${index + 1}`}
             />
           ))
