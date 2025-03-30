@@ -2,7 +2,7 @@ import { useVideoContext } from "./Context";
 import convert from "../utils/convert";
 
 const ConvertButton = () => {
-  const { ffmpegRef, videoFile, isFileReady, setDownloadUrl } = useVideoContext();
+  const { ffmpegRef, arrowPositions, videoFile, isFileReady, setDownloadUrl } = useVideoContext();
 
   const runConvert = async () => {
     if (!isFileReady || !videoFile) {
@@ -11,7 +11,7 @@ const ConvertButton = () => {
     }
 
     try {
-      const url = await convert(ffmpegRef);
+      const url = await convert(ffmpegRef, arrowPositions);
       setDownloadUrl(url);
     } catch (error) {
       console.error("Conversion failed:", error);
