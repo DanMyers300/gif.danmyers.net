@@ -1,4 +1,4 @@
-import {useVideoContext} from "./Context"
+import { useVideoContext } from "./Context";
 import { useRef } from "react";
 import { FaArrowDown } from "react-icons/fa";
 
@@ -11,7 +11,8 @@ const useArrowDrag = (
     if (!containerRef.current) return;
 
     const containerRect = containerRef.current.getBoundingClientRect();
-    const newPosition = ((clientX - containerRect.left) / containerRect.width) * 100;
+    const newPosition =
+      ((clientX - containerRect.left) / containerRect.width) * 100;
 
     setArrowPositions((prev) => {
       const updatedPosition = Math.max(0, Math.min(100, newPosition));
@@ -65,24 +66,35 @@ type ArrowPosition = { left: number; right: number };
 
 const Arrows = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const {arrowPositions, setArrowPositions} = useVideoContext();
+  const { arrowPositions, setArrowPositions } = useVideoContext();
 
-  const { handleMouseDown: handleLeftArrowMouseDown, handleTouchStart: handleLeftArrowTouchStart } =
-    useArrowDrag("left", setArrowPositions, containerRef);
+  const {
+    handleMouseDown: handleLeftArrowMouseDown,
+    handleTouchStart: handleLeftArrowTouchStart,
+  } = useArrowDrag("left", setArrowPositions, containerRef);
 
-  const { handleMouseDown: handleRightArrowMouseDown, handleTouchStart: handleRightArrowTouchStart } =
-    useArrowDrag("right", setArrowPositions, containerRef);
+  const {
+    handleMouseDown: handleRightArrowMouseDown,
+    handleTouchStart: handleRightArrowTouchStart,
+  } = useArrowDrag("right", setArrowPositions, containerRef);
 
   return (
-    <div ref={containerRef} className="absolute bottom-42 w-full h-2 text-white bg-black">
+    <div
+      ref={containerRef}
+      className="absolute bottom-42 w-full h-2 text-white bg-black"
+    >
       <FaArrowDown
-        style={{ left: `${arrowPositions.left}%` }}
+        style={{
+          left: `calc(${arrowPositions.left}% + 8px)`, // Adjust visual position
+        }}
         className="absolute top-0 cursor-pointer transform -translate-x-1/2"
         onMouseDown={handleLeftArrowMouseDown}
         onTouchStart={handleLeftArrowTouchStart}
       />
       <FaArrowDown
-        style={{ left: `${arrowPositions.right}%` }}
+        style={{
+          left: `calc(${arrowPositions.right}% - 8px)`, // Adjust visual position
+        }}
         className="absolute top-0 cursor-pointer transform -translate-x-1/2"
         onMouseDown={handleRightArrowMouseDown}
         onTouchStart={handleRightArrowTouchStart}
@@ -92,3 +104,4 @@ const Arrows = () => {
 };
 
 export default Arrows;
+

@@ -32,7 +32,10 @@ const Timeline = () => {
         />
         {/* Right Overlay */}
         <div
-          style={{ width: `${100 - arrowPositions.right}%`, left: `${arrowPositions.right}%` }}
+          style={{
+            width: `${100 - arrowPositions.right}%`,
+            left: `${arrowPositions.right}%`,
+          }}
           className="absolute top-0 h-full bg-gray-800 opacity-50"
         />
         {isGenerating ? (
@@ -51,11 +54,15 @@ const Timeline = () => {
         ) : null}
         {/* Vertical lines */}
         <div
-          style={{ left: `${arrowPositions.left}%` }}
+          style={{
+            left: `calc(${arrowPositions.left}% + 8px)`, // Adjust visual position
+          }}
           className="absolute top-0 h-full w-px bg-red-500 transform -translate-x-1/2"
         />
         <div
-          style={{ left: `${arrowPositions.right}%` }}
+          style={{
+            left: `calc(${arrowPositions.right}% - 8px)`, // Adjust visual position
+          }}
           className="absolute top-0 h-full w-px bg-red-500 transform -translate-x-1/2"
         />
       </div>
