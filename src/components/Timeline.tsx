@@ -23,8 +23,8 @@ const Timeline = () => {
   }, [isFileReady, videoUrl, ffmpegRef]);
 
   return (
-    <div className="absolute bottom-0 flex flex-col w-screen">
-      <div className="timeline-container flex items-center justify-center bg-gray-700 min-h-40 max-h-40 overflow-hidden p-2 -space-x-6 relative">
+    <div className="absolute bottom-0 flex flex-col w-full">
+      <div className="timeline-container flex items-center justify-start bg-gray-700 min-h-40 max-h-40 overflow-x-auto overflow-y-hidden pl-0 w-full relative">
         {/* Left Overlay */}
         <div
           style={{ width: `${arrowPositions.left}%` }}
@@ -36,19 +36,19 @@ const Timeline = () => {
           className="absolute top-0 h-full bg-gray-800 opacity-50"
         />
         {isGenerating ? (
-          <div className="text-gray-400">Generating screenshots...</div>
+          <div className="absolute left-0 right-0 text-center text-gray-400">
+            Generating screenshots...
+          </div>
         ) : screenshots.length > 0 ? (
           screenshots.map((src, index) => (
             <img
               key={index}
               src={src}
-              className="max-h-40 h-full object-contain flex-shrink-0"
+              className="h-full w-auto object-cover flex-none"
               alt={`Screenshot ${index + 1}`}
             />
           ))
-        ) : (
-          ""
-        )}
+        ) : null}
         {/* Vertical lines */}
         <div
           style={{ left: `${arrowPositions.left}%` }}

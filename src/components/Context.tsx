@@ -24,8 +24,9 @@ export const VideoProvider = ({ children }: { children: ReactNode }) => {
   const [videoFile, setVideoFile] = useState<Uint8Array | null>(null);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [isFileReady, setIsFileReady] = useState(false);
-  const animationFrameId = useRef<number>(0);
   const [arrowPositions, setArrowPositions] = useState({ left: 25, right: 75 });
+
+  const animationFrameId = useRef<number>(0);
 
   useEffect(() => {
     const ffmpeg = ffmpegRef.current;
@@ -54,8 +55,8 @@ export const VideoProvider = ({ children }: { children: ReactNode }) => {
         videoFile,
         downloadUrl,
         setDownloadUrl,
-        setIsFileReady,
         isFileReady,
+        setIsFileReady,
         animationFrameId,
         ffmpegRef,
         arrowPositions,
