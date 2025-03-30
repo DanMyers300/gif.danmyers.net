@@ -27,14 +27,14 @@ const Timeline = () => {
       <div className="timeline-container flex items-center justify-start bg-gray-700 min-h-40 max-h-40 overflow-x-auto overflow-y-hidden pl-0 w-full relative">
         {/* Left Overlay */}
         <div
-          style={{ width: `${arrowPositions.left}%` }}
+          style={{ width: `calc(${arrowPositions.left}% + 8px)` }}
           className="absolute top-0 left-0 h-full bg-gray-800 opacity-50"
         />
         {/* Right Overlay */}
         <div
           style={{
-            width: `${100 - arrowPositions.right}%`,
-            left: `${arrowPositions.right}%`,
+            width: `calc(${100 - arrowPositions.right}% + 8px)`, // Match the left overlay's width logic
+            left: `calc(${arrowPositions.right}% - 8px)`, // Adjust position like the left overlay
           }}
           className="absolute top-0 h-full bg-gray-800 opacity-50"
         />
