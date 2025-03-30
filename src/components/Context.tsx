@@ -24,7 +24,7 @@ export const VideoProvider = ({ children }: { children: ReactNode }) => {
   const [videoFile, setVideoFile] = useState<Uint8Array | null>(null);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [isFileReady, setIsFileReady] = useState(false);
-  const [arrowPositions, setArrowPositions] = useState({ left: 25, right: 75 });
+  const [arrowPositions, setArrowPositions] = useState({ left: 0, right: 100 });
 
   const animationFrameId = useRef<number>(0);
 

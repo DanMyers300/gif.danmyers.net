@@ -19,7 +19,9 @@ const getVideoDuration = async (ffmpeg: FFmpeg): Promise<number> => {
       ]);
       
       const durationFile = await ffmpeg.readFile("duration.json");
-      const durationData = JSON.parse(new TextDecoder().decode(durationFile));
+      const durationData = JSON.parse(
+        new TextDecoder().decode(durationFile as Uint8Array)
+      );
       if (durationData?.format?.duration) {
         return parseFloat(durationData.format.duration);
       }
@@ -57,7 +59,11 @@ const getVideoDuration = async (ffmpeg: FFmpeg): Promise<number> => {
 
     return duration;
   } catch (error) {
-    throw new Error(`Failed to get video duration: ${error.message}`);
+    throw new Error(
+      `Failed to get video duration: ${
+        error instanceof Error ? error.message : String(error)
+      }`
+    );
   }
 };
 
