@@ -1,4 +1,11 @@
-import { createContext, useContext, useState, useRef, ReactNode, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useRef,
+  ReactNode,
+  useEffect,
+} from "react";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
 import updateFileData from "../utils/updateFileData";
 
@@ -9,11 +16,17 @@ interface VideoContextType {
   downloadUrl: string | null;
   setDownloadUrl: (url: string | null) => void;
   isFileReady: boolean;
-  setIsFileReady: (arg0: React.SetStateAction<boolean>) => void;
+  setIsFileReady: React.Dispatch<React.SetStateAction<boolean>>;
   animationFrameId: React.RefObject<number>;
   ffmpegRef: React.RefObject<FFmpeg>;
-  arrowPositions:  {left: number; right: number;},
-  setArrowPositions: React.Dispatch<React.SetStateAction<{left: number; right: number;}>>
+  arrowPositions: { left: number; right: number };
+  setArrowPositions: React.Dispatch<
+    React.SetStateAction<{ left: number; right: number }>
+  >;
+  videoDuration: number;
+  setVideoDuration: (duration: number) => void;
+  previewPercent: number;
+  setPreviewPercent: (percent: number) => void;
 }
 
 const VideoContext = createContext<VideoContextType | undefined>(undefined);
@@ -25,6 +38,8 @@ export const VideoProvider = ({ children }: { children: ReactNode }) => {
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [isFileReady, setIsFileReady] = useState(false);
   const [arrowPositions, setArrowPositions] = useState({ left: 0, right: 100 });
+  const [videoDuration, setVideoDuration] = useState(0);
+  const [previewPercent, setPreviewPercent] = useState(0);
 
   const animationFrameId = useRef<number>(0);
 
@@ -39,12 +54,7 @@ export const VideoProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    updateFileData(
-      videoUrl,
-      ffmpegRef,
-      setVideoFile,
-      setIsFileReady
-    );
+    updateFileData(videoUrl, ffmpegRef, setVideoFile, setIsFileReady);
   }, [videoUrl]);
 
   return (
@@ -60,7 +70,11 @@ export const VideoProvider = ({ children }: { children: ReactNode }) => {
         animationFrameId,
         ffmpegRef,
         arrowPositions,
-        setArrowPositions
+        setArrowPositions,
+        videoDuration,
+        setVideoDuration,
+        previewPercent,
+        setPreviewPercent,
       }}
     >
       {children}
