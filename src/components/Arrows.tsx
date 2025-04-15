@@ -17,12 +17,10 @@ const useArrowDrag = (
     setArrowPositions((prev) => {
       const updatedPosition = Math.max(0, Math.min(100, newPosition));
 
-      // Ensure the left arrow doesn't go beyond 50%
       if (arrow === "left" && updatedPosition > 50) {
         return { ...prev, [arrow]: 50 };
       }
 
-      // Ensure the right arrow doesn't go below 50%
       if (arrow === "right" && updatedPosition < 50) {
         return { ...prev, [arrow]: 50 };
       }
@@ -85,7 +83,7 @@ const Arrows = () => {
     >
       <FaArrowDown
         style={{
-          left: `calc(${arrowPositions.left}% + 8px)`, // Adjust visual position
+          left: `calc(${arrowPositions.left}% + 8px)`,
         }}
         className="absolute top-0 cursor-pointer transform -translate-x-1/2"
         onMouseDown={handleLeftArrowMouseDown}
@@ -93,7 +91,7 @@ const Arrows = () => {
       />
       <FaArrowDown
         style={{
-          left: `calc(${arrowPositions.right}% - 8px)`, // Adjust visual position
+          left: `calc(${arrowPositions.right}% - 8px)`,
         }}
         className="absolute top-0 cursor-pointer transform -translate-x-1/2"
         onMouseDown={handleRightArrowMouseDown}
