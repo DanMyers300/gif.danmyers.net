@@ -13,8 +13,8 @@ const Arrows = () => {
     setPreviewPercent,
   } = useVideoContext();
 
+  //@ts-ignore
   const handleArrowDrag = (arrow: keyof ArrowPosition, percent: number) => {
-    console.log(arrow);
     setPreviewPercent(percent);
   };
 

@@ -15,10 +15,10 @@ const useArrowDrag = (
     newPosition = Math.max(0, Math.min(100, newPosition));
 
     let clampedPosition = newPosition;
-    if (arrow === "left" && clampedPosition > 50) clampedPosition = 50;
-    if (arrow === "right" && clampedPosition < 50) clampedPosition = 50;
+    if (arrow === "left" && clampedPosition > 99) clampedPosition = 99;
+    if (arrow === "right" && clampedPosition < 1) clampedPosition = 1;
 
-    onDrag(arrow, clampedPosition);
+    onDrag(arrow, newPosition);
 
     setArrowPositions((prev) => ({
       ...prev,
