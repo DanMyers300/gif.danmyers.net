@@ -20,10 +20,18 @@ const useArrowDrag = (
 
     onDrag(arrow, newPosition);
 
-    setArrowPositions((prev) => ({
+    setArrowPositions((prev) => {
+      if (arrow === "left") {
+        clampedPosition = Math.min(clampedPosition, prev.right - 2);
+      }
+
+      if (arrow === "right") {
+        clampedPosition = Math.max(clampedPosition, prev.left + 2);
+      }
+      return {
       ...prev,
       [arrow]: clampedPosition,
-    }));
+    }});
   };
 
   const handleMouseMove = (e: MouseEvent) => handleMove(e.clientX);
