@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
   };
 
   outputs = { self, nixpkgs, ... } @ inputs: let
@@ -10,6 +10,7 @@
     devShell.${system} = pkgs.mkShell {
       name = "danmyers.net";
       buildInputs = with pkgs; [
+        nodejs_24
         bun
       ];
     };
