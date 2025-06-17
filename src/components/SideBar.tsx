@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import UploadButton from "./UploadButton";
 import { LuPanelLeftOpen, LuPanelRightOpen } from 'react-icons/lu';
-import { FaCloudUploadAlt } from 'react-icons/fa';
 
 const SideBar = () => {
   const [sideBar, toggleSideBar] = useState('open');
@@ -29,21 +29,8 @@ const SideBar = () => {
           {isSidebarOpen ? <LuPanelRightOpen /> : <LuPanelLeftOpen />}
         </div>
 
-        {/* Upload button */}
-        <div
-          className={`flex flex-col mt-4 items-center ${
-            isSidebarOpen ? 'p-4' : 'py-4'
-          }`}
-        >
-          <button
-            className={`flex items-center justify-center text-white bg-blue-600 hover:bg-blue-700 rounded-md ${
-              isSidebarOpen ? 'py-2 px-4 w-full' : 'p-2'
-            }`}
-          >
-            <FaCloudUploadAlt />
-            {isSidebarOpen && <div className="ml-2">Upload</div>}
-          </button>
-        </div>
+        < UploadButton isSidebarOpen={isSidebarOpen} />
+
       </section>
     </>
   );
