@@ -11,6 +11,7 @@ const SideBar = () => {
       toggleSideBar("open")
     }
   };
+
   return (
     <>
       {/* Side bar */}
