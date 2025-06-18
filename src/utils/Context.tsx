@@ -1,6 +1,40 @@
-import { createContext, ReactNode } from "react";
+import type { ReactNode } from 'react';
+import {
+  createContext,
+  useRef,
+  useState,
+  useContext
+} from "react";
 
-const Context = createContext(undefined);
-
-export const Provider = ({childen}: {children: ReactNode}) => {
+interface ContextType {
+  fileName: string;
+  setFileName: React.Dispatch<React.SetStateAction<string>>;
+  fileInputRef: React.RefObject<HTMLInputElement | null>;
 }
+
+const Context = createContext<ContextType | undefined>(undefined);
+
+export const Provider = ({children}: {children: ReactNode}) => {
+  const [fileName, setFileName] = useState("");
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  return (
+    <Context.Provider
+      value={{
+        fileName,
+        setFileName,
+        fileInputRef
+      }}
+    >
+      {children}
+    </Context.Provider>
+  );
+}
+
+export const consumeContext = () => {
+  const context = useContext(Context);
+  if (!context) {
+    throw Error("useContext must be used within a Provider")
+  };
+  return context;
+};

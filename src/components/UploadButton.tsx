@@ -1,13 +1,12 @@
-import { useState, useRef } from "react";
 import { FaCloudUploadAlt } from 'react-icons/fa';
+import { consumeContext } from '../utils/Context';
 
 interface UploadButtonProps {
   isSidebarOpen: boolean;
 }
 
 const UploadButton: React.FC<UploadButtonProps> = ({ isSidebarOpen }) => {
-  const [fileName, setFileName] = useState("");
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const {setFileName, fileInputRef, fileName} = consumeContext();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -42,6 +41,7 @@ const UploadButton: React.FC<UploadButtonProps> = ({ isSidebarOpen }) => {
         <FaCloudUploadAlt />
         {isSidebarOpen && <div className="ml-2">Upload</div>}
       </button>
+      <div> {fileName} </div>
     </div>
   );
 }
