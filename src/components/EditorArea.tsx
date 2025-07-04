@@ -22,7 +22,7 @@ const EditorArea = () => {
                   className="pointer-events-auto"
                   onClick={handlePlayPause}
                 >
-                  <FaPlay size={50} className="cursor-pointer" />
+                  <FaPlay size={50} style={{ color: "white" }} className="cursor-pointer" />
                 </div>
               </div>
             )}

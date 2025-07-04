@@ -9,6 +9,8 @@ import {
 interface ContextType {
   fileName: string;
   setFileName: React.Dispatch<React.SetStateAction<string>>;
+  inputFile: File | null;
+  setInputFile: React.Dispatch<React.SetStateAction<File | null>>;
   fileInputRef: React.RefObject<HTMLInputElement | null>;
   videoUrl: string;
   setVideoUrl: React.Dispatch<React.SetStateAction<string>>;
@@ -18,6 +20,7 @@ const Context = createContext<ContextType | undefined>(undefined);
 
 export const Provider = ({children}: {children: ReactNode}) => {
   const [fileName, setFileName] = useState("");
+  const [inputFile, setInputFile] = useState<File | null>(null)
   const [videoUrl, setVideoUrl] = useState("");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -26,6 +29,8 @@ export const Provider = ({children}: {children: ReactNode}) => {
       value={{
         fileName,
         setFileName,
+        inputFile,
+        setInputFile,
         fileInputRef,
         videoUrl,
         setVideoUrl,
