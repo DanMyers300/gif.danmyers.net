@@ -6,7 +6,7 @@ interface UploadButtonProps {
 }
 
 const UploadButton: React.FC<UploadButtonProps> = ({ isSidebarOpen }) => {
-  const {setFileName, fileInputRef, fileName, videoUrl, setVideoUrl} = consumeContext();
+  const {setFileName, fileInputRef, setVideoUrl} = consumeContext();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -42,7 +42,6 @@ const UploadButton: React.FC<UploadButtonProps> = ({ isSidebarOpen }) => {
         <FaCloudUploadAlt />
         {isSidebarOpen && <div className="ml-2">Upload</div>}
       </button>
-      <div> {fileName} </div>
     </div>
   );
 }
