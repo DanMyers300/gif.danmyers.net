@@ -6,11 +6,12 @@ interface UploadButtonProps {
 }
 
 const UploadButton: React.FC<UploadButtonProps> = ({ isSidebarOpen }) => {
-  const {setFileName, fileInputRef, fileName} = consumeContext();
+  const {setFileName, fileInputRef, fileName, videoUrl, setVideoUrl} = consumeContext();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       setFileName(event.target.files[0].name);
+      setVideoUrl(URL.createObjectURL(event.target.files?.[0]));
     }
   };
 

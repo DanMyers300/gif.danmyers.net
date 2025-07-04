@@ -15,7 +15,7 @@ const SideBar = () => {
     <>
       <section
         className={`bg-[#2b1e41] flex flex-col min-h-screen transition-all duration-300 ${
-          isSidebarOpen ? 'w-[15%]' : 'w-[3%]'
+          isSidebarOpen ? 'w-[15%]' : 'w-[5%]'
         }`}
         id="sideBar"
       >
