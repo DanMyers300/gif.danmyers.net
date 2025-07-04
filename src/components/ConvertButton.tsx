@@ -7,11 +7,11 @@ interface ConvertButtonProps {
 };
 
 const ConvertButton: React.FC<ConvertButtonProps> = ({ isSidebarOpen }) => {
-  const { inputFile } = consumeContext();
+  const { inputFile, setOutputUrl } = consumeContext();
 
   const handleConvert = async () => {
     if (!inputFile) throw new Error("no file input");
-    await convert(inputFile);
+    setOutputUrl(await convert(inputFile));
   };
 
   return (

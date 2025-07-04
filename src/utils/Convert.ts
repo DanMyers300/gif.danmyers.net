@@ -29,7 +29,8 @@ const convert = async (file: File) => {
   ]);
 
   const data = (await ffmpeg.readFile('output.gif') as Uint8Array)
-  return new Blob([data.buffer], { type: 'image/gif' });
+  const dataBlob = new Blob([data.buffer], { type: 'image/gif' });
+  return URL.createObjectURL(dataBlob);
 };
 
 export default convert;

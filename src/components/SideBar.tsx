@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import UploadButton from "./UploadButton";
 import ConvertButton from "./ConvertButton";
+import DownloadButton from "./DownloadButton";
 import { consumeContext } from "../utils/Context";
 import { LuPanelLeftOpen, LuPanelRightOpen } from 'react-icons/lu';
 
@@ -33,6 +34,7 @@ const SideBar = () => {
 
         <UploadButton isSidebarOpen={isSidebarOpen} />
         <ConvertButton isSidebarOpen={isSidebarOpen} />
+        <DownloadButton isSidebarOpen={isSidebarOpen} />
 
         {isSidebarOpen && fileName && <div className="border bg-purple-900 truncate px-2">{fileName}</div>}
       </section>
