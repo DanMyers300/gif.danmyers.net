@@ -19,7 +19,7 @@ const EditorArea = () => {
           <div className="relative h-[calc(100%-3rem)]">
             <div className="relative pt-[56.25%] mt-5 h-[80%]">
               {videoUrl ? (
-                <div className="absolute inset-0 flex max-h-[80%] justify-center items-center">
+                <div className="absolute inset-0 flex max-h-[70%] justify-center items-center">
                   <ReactPlayer
                     url={videoUrl}
                     playing={playing}
