@@ -1,5 +1,6 @@
-import { useRef } from "react";
-import { FaArrowDown } from "react-icons/fa";
+import { useState, useEffect, useRef } from "react";
+import { FaArrowUp } from "react-icons/fa";
+import GenerateScreenshots from "../utils/GenerateScreenshots";
 import { consumeContext } from "../utils/Context";
 
 type ArrowPosition = { left: number; right: number };
@@ -54,14 +55,29 @@ const useArrowDrag = (
 };
 
 const Timeline = () => {
-  const {previewPercent, setPreviewPercent, arrowPositions, setArrowPositions } = consumeContext();
+  const {inputFile, previewPercent, setPreviewPercent, arrowPositions, setArrowPositions } = consumeContext();
   const containerRef = useRef<HTMLDivElement>(null);
+  const [screenshots, setScreenshots] = useState<string[]>([]);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const handleArrowDrag = (arrow: keyof ArrowPosition, percent: number) => {
     console.log(arrow);
     setPreviewPercent(percent);
     console.log(previewPercent);
   };
+
+  useEffect(() => {
+    GenerateScreenshots({
+      inputFile,
+      setIsGenerating,
+      setScreenshots,
+    });
+
+    return () => {
+      screenshots.forEach((url) => URL.revokeObjectURL(url));
+      setScreenshots([]);
+    };
+  }, [inputFile]);
 
   const {
     handleMouseDown: handleLeftArrowMouseDown,
@@ -79,32 +95,49 @@ const Timeline = () => {
         style={{
           left: `calc(${arrowPositions.left}% + 8px)`,
         }}
-        className="absolute top-0 h-full w-px bg-red-500 transform -translate-x-1/2"
+        className="absolute top-0 z-1 h-full w-px bg-red-500 transform -translate-x-1/2"
       />
       <div
         style={{
           left: `calc(${arrowPositions.right}% - 8px)`,
         }}
-        className="absolute top-0 h-full w-px bg-red-500 transform -translate-x-1/2"
+        className="absolute top-0 z-1 h-full w-px bg-red-500 transform -translate-x-1/2"
       />
+
+      <div className="relative flex h-full w-full overflow-hidden flex-row">
+      {isGenerating ? (
+          <div className="left-0 right-0 text-center text-gray-400">
+            Generating screenshots...
+          </div>
+        ) : screenshots.length > 0 ? (
+          screenshots.map((src, index) => (
+            <img
+              key={index}
+              src={src}
+              className="h-full flex-1 object-cover"
+              alt={`Screenshot ${index + 1}`}
+            />
+          ))
+        ) : null}
+      </div>
 
       {/* Arrows */}
       <div
         ref={containerRef}
         className="absolute w-full h-2 text-white"
       >
-        <FaArrowDown
+        <FaArrowUp
           style={{
             left: `calc(${arrowPositions.left}% + 8px)`,
           }}
-          className="absolute top-[-200%] cursor-pointer transform -translate-x-1/2"
+          className="absolute cursor-pointer transform -translate-x-1/2"
           onMouseDown={handleLeftArrowMouseDown}
         />
-        <FaArrowDown
+        <FaArrowUp
           style={{
             left: `calc(${arrowPositions.right}% - 8px)`,
           }}
-          className="absolute top-[-200%] cursor-pointer transform -translate-x-1/2"
+          className="absolute cursor-pointer transform -translate-x-1/2"
           onMouseDown={handleRightArrowMouseDown}
         />
       </div>

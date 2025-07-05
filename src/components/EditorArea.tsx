@@ -18,18 +18,8 @@ const EditorArea = () => {
         <div className="relative w-full h-full">
           <div className="relative h-[calc(100%-3rem)]">
             <div className="relative pt-[56.25%] mt-5 h-[80%]">
-              {!playing && videoUrl && (
-                <div className="absolute inset-0 flex justify-center items-center z-10 pointer-events-none">
-                  <div 
-                    className="pointer-events-auto"
-                    onClick={handlePlayPause}
-                  >
-                    <FaPlay size={50} style={{ color: "white" }} className="cursor-pointer" />
-                  </div>
-                </div>
-              )}
               {videoUrl ? (
-                <div className="absolute inset-0">
+                <div className="absolute inset-0 flex max-h-[80%] justify-center items-center">
                   <ReactPlayer
                     url={videoUrl}
                     playing={playing}
@@ -37,7 +27,16 @@ const EditorArea = () => {
                     width="100%"
                     height="100%"
                     controls={false}
+                    style={{ position: 'relative' }}
                   />
+                  {!playing && (
+                    <div 
+                      className="absolute inset-0 flex justify-center items-center z-10 cursor-pointer"
+                      onClick={handlePlayPause}
+                    >
+                      <FaPlay size={50} style={{ color: "white" }} />
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className="absolute inset-0 flex justify-center items-center">
