@@ -18,6 +18,10 @@ interface ContextType {
   fileInputRef: React.RefObject<HTMLInputElement | null>;
   videoUrl: string;
   setVideoUrl: React.Dispatch<React.SetStateAction<string>>;
+  previewPercent: number;
+  setPreviewPercent: React.Dispatch<React.SetStateAction<number>>;
+  arrowPositions: {left: number; right: number; };
+  setArrowPositions: React.Dispatch<React.SetStateAction<{ left: number; right: number; }>>
 }
 
 const Context = createContext<ContextType | undefined>(undefined);
@@ -29,6 +33,8 @@ export const Provider = ({children}: {children: ReactNode}) => {
   const [outputUrl, setOutputUrl] = useState<string | null>(null)
   const [videoUrl, setVideoUrl] = useState("");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [previewPercent, setPreviewPercent] = useState(0);
+  const [arrowPositions, setArrowPositions] = useState({ left: 0, right: 100 });
 
   return (
     <Context.Provider
@@ -44,6 +50,10 @@ export const Provider = ({children}: {children: ReactNode}) => {
         fileInputRef,
         videoUrl,
         setVideoUrl,
+        previewPercent,
+        setPreviewPercent,
+        arrowPositions,
+        setArrowPositions
       }}
     >
       {children}
